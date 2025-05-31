@@ -1,0 +1,71 @@
+#!/bin/sh
+# Commit-msg hook for Git
+# Save as .git/hooks/commit-msg and make it executable (chmod +x .git/hooks/commit-msg)
+
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+# Conventional Commit format
+# See: https://www.conventionalcommits.org/
+COMMIT_REGEX='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9-]+\))?: .{1,100}'
+
+# Get the commit message
+commit_msg_file=$1
+commit_msg=$(cat "$commit_msg_file")
+
+# Skip merge commits
+if echo "$commit_msg" | grep -q "^Merge branch"; then
+    echo "${BLUE}Merge commit detected. Skipping commit message validation.${NC}"
+    exit 0
+fi
+
+# Validate the commit message format
+if ! echo "$commit_msg" | grep -qE "$COMMIT_REGEX"; then
+    echo "${RED}❌ Invalid commit message format!${NC}"
+    echo "${YELLOW}Your commit message:${NC} $commit_msg"
+    echo ""
+    echo "${BLUE}Commit messages must follow the Conventional Commits specification:${NC}"
+    echo "${GREEN}type(scope): description${NC}"
+    echo ""
+    echo "Types: ${YELLOW}feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert${NC}"
+    echo "Scope: Optional, describes section of the codebase"
+    echo "Description: Start with lowercase, use imperative mood, no period at end"
+    echo ""
+    echo "Examples:"
+    echo "  ${GREEN}feat(auth): add login functionality${NC}"
+    echo "  ${GREEN}fix(ui): resolve button alignment issue${NC}"
+    echo "  ${GREEN}docs: update API documentation${NC}"
+    echo "  ${GREEN}refactor: simplify user validation logic${NC}"
+    echo ""
+    echo "${YELLOW}To bypass this check, use git commit --no-verify${NC}"
+    exit 1
+fi
+
+# Check for body/footer format if they exist
+if echo "$commit_msg" | grep -q "^$"; then
+    # There's a blank line, so there's a body or footer
+    body_lines=$(echo "$commit_msg" | sed '1d' | sed '/^$/d')
+    
+    # Check if any line in the body is too long (>100 chars)
+    if echo "$body_lines" | grep -q '^.\{101,\}$'; then
+        echo "${YELLOW}⚠️ Some lines in your commit body exceed 100 characters.${NC}"
+        echo "Consider wrapping text for better readability."
+    fi
+    
+    # Check for properly formatted footer (i.e., "key: value" or "key #value")
+    footer_regex='^(BREAKING CHANGE|Closes|Fixes|Resolves|Co-authored-by|Refs|See-also|Related-to): '
+    has_footer=$(echo "$body_lines" | grep -E "$footer_regex" | wc -l)
+    invalid_footer=$(echo "$body_lines" | grep -E '^[A-Za-z\-]+:' | grep -vE "$footer_regex" | wc -l)
+    
+    if [ "$invalid_footer" -gt 0 ] && [ "$has_footer" -gt 0 ]; then
+        echo "${YELLOW}⚠️ Some footer trailers may be incorrectly formatted.${NC}"
+        echo "Common footers: BREAKING CHANGE, Closes, Fixes, Co-authored-by"
+    fi
+fi
+
+echo "${GREEN}✅ Commit message format is valid!${NC}"
+exit 0
