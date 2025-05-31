@@ -56,15 +56,15 @@ git branch                    # Local branches only
 git branch -a                 # All branches (local and remote)
 git branch -r                 # Remote branches only
 
-# Create new branch from dev
-git checkout dev
-git pull origin dev
-git checkout -b feature-login # Create and switch to branch from dev
+# Create new branch
+git branch feature-login      # Create branch (don't switch)
+git checkout -b feature-login # Create and switch to branch
+git switch -c feature-login   # Modern way to create and switch
 
 # Switch between branches
-git checkout dev              # Switch to dev
-git switch dev                # Modern way to switch
-git checkout feature-login    # Switch to feature branch
+git checkout main             # Switch to main
+git switch main              # Modern way to switch
+git checkout feature-login   # Switch to feature branch
 
 # Rename branch
 git branch -m old-name new-name    # Rename branch
@@ -142,34 +142,34 @@ Both merging and rebasing integrate changes from one branch into another, but th
 #### 1. Fast-Forward Merge
 ```bash
 # When target branch hasn't diverged
-dev:    [A] ── [B]
+main:    [A] ── [B]
                  ↑
 feature:        [C] ── [D]
 
 # After merge:
-dev:    [A] ── [B] ── [C] ── [D]
+main:    [A] ── [B] ── [C] ── [D]
 ```
 
 ```bash
-git checkout dev
+git checkout main
 git merge feature-branch    # Fast-forward automatically
 ```
 
 #### 2. Three-Way Merge (Merge Commit)
 ```bash
 # When both branches have new commits
-dev:    [A] ── [B] ── [E]
+main:    [A] ── [B] ── [E]
               ↙        ↘
 feature:     [C] ── [D]
 
 # After merge:
-dev:    [A] ── [B] ── [E] ── [M]
+main:    [A] ── [B] ── [E] ── [M]
               ↙               ↗
 feature:     [C] ── [D] ─────↗
 ```
 
 ```bash
-git checkout dev
+git checkout main
 git merge feature-branch    # Creates merge commit
 git merge --no-ff feature-branch  # Force merge commit
 ```
@@ -177,13 +177,13 @@ git merge --no-ff feature-branch  # Force merge commit
 #### 3. Squash Merge
 ```bash
 # Combines all feature commits into single commit
-dev:    [A] ── [B] ── [E] ── [F]
+main:    [A] ── [B] ── [E] ── [F]
               ↙               ↗
 feature:     [C] ── [D] ─────↗ (squashed into F)
 ```
 
 ```bash
-git checkout dev
+git checkout main
 git merge --squash feature-branch
 git commit -m "Add complete login feature"
 ```
@@ -193,19 +193,19 @@ git commit -m "Add complete login feature"
 #### Basic Rebase
 ```bash
 # Before rebase:
-dev:    [A] ── [B] ── [E]
+main:    [A] ── [B] ── [E]
               ↙
 feature:     [C] ── [D]
 
 # After rebase:
-dev:    [A] ── [B] ── [E]
+main:    [A] ── [B] ── [E]
                       ↘
 feature:               [C'] ── [D']
 ```
 
 ```bash
 git checkout feature-branch
-git rebase dev
+git rebase main
 ```
 
 #### Interactive Rebase
@@ -228,8 +228,8 @@ git rebase -i abc123
 
 | Situation | Recommendation | Reason |
 |-----------|----------------|---------|
-| **Feature/fix branch → dev** | Merge (with --no-ff) | Preserves feature branch context |
-| **Updating feature/fix branch** | Rebase | Keeps linear history |
+| **Feature branch → main** | Merge (with --no-ff) | Preserves feature branch context |
+| **Updating feature branch** | Rebase | Keeps linear history |
 | **Shared/public branches** | Merge only | Don't rewrite shared history |
 | **Local cleanup** | Interactive rebase | Clean up before sharing |
 | **Release branches** | Merge | Clear release boundaries |
@@ -346,103 +346,72 @@ git mergetool
 
 ## 🏗️ Branching Strategies
 
-### 1. Feature/Fix/Hotfix → Dev → Main (Recommended for Your Organization)
+### 1. Git Flow
 
-**Best for**: Teams that want to stabilize features and fixes before production
+**Best for**: Large projects with scheduled releases
 
 ```
-main:      [A] ── [B] ── [C] ── [D] (production)
-             ↑
-            [merge]
-             ↑
-dev:       [E] ── [F] ── [G] ── [H] (integration)
-             ↑      ↑      ↑
-feature:   [I]     [J]
-fix:       [K]     [L]
-hotfix:    [M]     [N]
+main:      [A] ── [B] ── [C] ── [D] (production ready)
+            ↑      ↑      ↑      ↑
+develop:   [E] ── [F] ── [G] ── [H] (integration)
+            ↑             ↑
+feature:   [I] ── [J]    [K] ── [L]
+            ↑
+hotfix:    [M] ── [N]
 ```
 
 **Branches:**
 - **main**: Production-ready code
-- **dev**: Integration branch for all features, fixes, and hotfixes
-- **feature/***: Individual features (from dev)
-- **fix/***: Bug fixes (from dev)
-- **hotfix/***: Urgent fixes (from dev or main, see below)
-
-**Workflow:**
-1. Create feature, fix, or hotfix branch from `dev`
-2. Work, commit, and push to remote
-3. Merge feature/fix/hotfix branch into `dev` via PR
-4. Test and stabilize in `dev`
-5. **Merge `dev` into `main` via PR for production release**
-6. Delete feature/fix/hotfix branch after merge
-
-**Hotfixes:**
-- If an urgent hotfix is needed in production, create the hotfix branch from `main`, merge it into both `main` and `dev` to keep them in sync.
+- **dev**: Integration branch for features
+- **feature/***: Individual features
+- **release/***: Release preparation
+- **hotfix/***: Emergency fixes
 
 **Commands:**
 ```bash
-# Start new feature/fix/hotfix
-git checkout dev
-git pull origin dev
-git checkout -b feature/new-feature
-# or
-git checkout -b fix/bug-description dev
-# or
-git checkout -b hotfix/urgent-fix dev
+# Start new feature
+git checkout develop
+git checkout -b feature/new-login
 
-# Finish feature/fix/hotfix
-# (after PR review/approval)
-git checkout dev
-git pull origin dev
-git merge --no-ff feature/new-feature
-git branch -d feature/new-feature
-git push origin dev
+# Finish feature
+git checkout develop
+git merge --no-ff feature/new-login
+git branch -d feature/new-login
 
-# Release to production (merge dev into main)
+# Create release
+git checkout develop
+git checkout -b release/v1.2.0
+
+# Finish release
 git checkout main
-git pull origin main
-git merge --no-ff dev
-git push origin main
-
-# Urgent hotfix (if needed)
-git checkout main
-git pull origin main
-git checkout -b hotfix/urgent-fix main
-# ... make and commit changes ...
-git merge --no-ff hotfix/urgent-fix
-git push origin main
-git checkout dev
-git pull origin dev
-git merge --no-ff hotfix/urgent-fix
-git push origin dev
-git branch -d hotfix/urgent-fix
+git merge --no-ff release/v1.2.0
+git checkout develop
+git merge --no-ff release/v1.2.0
+git tag v1.2.0
 ```
-
-> **Note:** All regular development (features, fixes, hotfixes) should go through `dev`. Only urgent hotfixes may be created from `main` and must be merged back into `dev` after release.
 
 ### 2. GitHub Flow
 
 **Best for**: Continuous deployment, smaller teams
 
 ```
-dev:    [A] ── [B] ── [D] ── [F] (always deployable)
+main:    [A] ── [B] ── [D] ── [F] (always deployable)
            ↑      ↑      ↑      ↑
 feature:  [C] ────┘     [E] ────┘
 ```
 
 **Process:**
-1. Create feature branch from dev
+1. Create feature branch from main
 2. Make changes and commit
 3. Open pull request
 4. Deploy and test
-5. Merge to dev
+5. Merge to main
 
 **Commands:**
 ```bash
 # Start feature
-git checkout dev
-git pull origin dev
+git checkout main
+git pull origin main
 git checkout -b feature/new-feature
 
 # Work and commit
@@ -451,8 +420,8 @@ git commit -m "Add new feature"
 git push -u origin feature/new-feature
 
 # After PR approval
-git checkout dev
-git pull origin dev
+git checkout main
+git pull origin main
 git branch -d feature/new-feature
 ```
 
@@ -461,7 +430,7 @@ git branch -d feature/new-feature
 **Best for**: Teams needing environment-specific branches
 
 ```
-dev:        [A] ── [B] ── [C] ── [D]
+main:        [A] ── [B] ── [C] ── [D]
               ↑      ↑      ↑      ↑
 pre-prod:    [E] ── [F] ── [G] ── [H]
               ↑             ↑
@@ -474,16 +443,16 @@ production:  [I] ─────────── [J]
 
 ```bash
 # Daily workflow
-git checkout dev
-git pull origin dev
+git checkout main
+git pull origin main
 git checkout -b fix/button-styling
 # Make changes
 git add .
 git commit -m "Fix button styling issues"
 git push -u origin fix/button-styling
 # Create PR, get approval, merge
-git checkout dev
-git pull origin dev
+git checkout main
+git pull origin main
 git branch -d fix/button-styling
 ```
 
@@ -493,10 +462,10 @@ git branch -d fix/button-styling
 
 ```bash
 # List merged branches
-git branch --merged dev
+git branch --merged main
 
 # Delete all merged branches
-git branch --merged dev | grep -v "dev" | xargs git branch -d
+git branch --merged main | grep -v "main" | xargs git branch -d
 
 # Delete remote tracking branches that no longer exist
 git remote prune origin
@@ -509,7 +478,7 @@ git fetch -p && git branch -vv | awk '/: gone]/{print $1}' | xargs git branch -d
 
 In GitHub, protect important branches:
 1. Go to Settings → Branches
-2. Add rule for `dev` branch:
+2. Add rule for `main` branch:
    - Require pull request reviews
    - Dismiss stale reviews
    - Require status checks
@@ -535,27 +504,27 @@ git read-tree -m -u HEAD
 
 ### Exercise 1: Basic Branching
 1. Create a new repository
-2. Create multiple feature branches from dev
+2. Create multiple feature branches
 3. Make commits on each branch
 4. Practice switching between branches
-5. Merge branches back to dev
+5. Merge branches back to main
 
 ### Exercise 2: Conflict Resolution
-1. Create two branches from dev
+1. Create two branches from main
 2. Modify the same lines in the same file on both branches
 3. Attempt to merge and resolve the conflict
 4. Try different conflict resolution strategies
 
 ### Exercise 3: Rebase Practice
-1. Create a feature branch from dev
-2. Make commits on both dev and feature branch
-3. Rebase feature branch onto dev
+1. Create a feature branch
+2. Make commits on both main and feature branch
+3. Rebase feature branch onto main
 4. Compare the result with merging
 
 ### Exercise 4: Team Workflow Simulation
 1. Simulate a team workflow with multiple developers
 2. Use feature branches for different features
-3. Practice pull requests and code review process (into dev)
+3. Practice pull requests and code review process
 4. Handle multiple concurrent features
 
 ## 🔧 Troubleshooting Branch Issues
@@ -587,7 +556,7 @@ git reset --hard HEAD~1
 git branch -D branch-name  # Force delete
 
 # If you're on the branch you want to delete
-git checkout dev
+git checkout main
 git branch -d branch-name
 ```
 
@@ -611,9 +580,9 @@ git checkout -b recovery-branch
 - Use lowercase with hyphens
 
 ### Branch Lifecycle
-- Create branches from latest dev
+- Create branches from latest main
 - Keep branches short-lived (< 1 week)
-- Regularly sync with dev
+- Regularly sync with main
 - Delete branches after merging
 
 ### Merge Strategy

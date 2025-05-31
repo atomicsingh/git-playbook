@@ -571,3 +571,8 @@ Before moving to Module 4, ensure you can:
 ---
 
 **Next Module**: [Module 4: Branching & Merging](../04-branching/README.md)
+
+# Example branch naming
+feature/new-feature
+fix/bug-description
+hotfix/urgent-fix

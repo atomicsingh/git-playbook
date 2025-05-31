@@ -133,3 +133,21 @@ git log --stat              # Show file change statistics
 git shortlog -sn            # Contributor statistics
 git log --since="2 weeks ago" # Commits in time range
 ```
+
+## 📁 Branch Naming Conventions
+
+```bash
+# Feature branches
+feature/your-feature-name
+# Bugfix branches
+fix/your-bug-description
+# Hotfix branches
+hotfix/your-hotfix-description
+```
+
+## ✍️ Commit Message Conventions
+
+```bash
+# Bugfix commit example
+fix: correct login validation logic
+```

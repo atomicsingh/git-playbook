@@ -173,14 +173,14 @@ function renderDashboard() {
 # Type-based naming:
 feature/user-authentication
 feature/payment-integration
-bugfix/login-validation
+fix/login-validation
 hotfix/security-patch
 release/v1.2.0
 experiment/new-ui-framework
 
 # Issue-based naming:
 feature/123-user-profiles
-bugfix/456-memory-leak
+fix/456-memory-leak
 hotfix/789-sql-injection
 
 # User-based naming (for long-running work):

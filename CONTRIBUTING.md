@@ -119,6 +119,10 @@ git commit -m "feat(auth): add OAuth2 integration"  # Commit with conventional m
 git checkout -b branch
 git add file
 git commit -m "changes"
+
+# Example for bugfix:
+git checkout -b fix/login-bug      # Create new fix branch
+git commit -m "fix(auth): correct login bug"
 ```
 
 #### Explanatory Text

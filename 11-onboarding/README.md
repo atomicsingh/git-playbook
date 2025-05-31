@@ -310,7 +310,7 @@ Our team uses a development workflow where all feature and fix branches are merg
 - CI/CD pipeline runs on every push
 
 ### Dev Branch
-- Integration branch for all features and fixes
+- Integration branch for all features and fix
 - Regularly updated and tested
 - Merged into `main` for releases
 

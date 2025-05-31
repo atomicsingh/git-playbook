@@ -61,6 +61,8 @@ A **Pull Request (PR)** is a way to propose changes to a repository. It's called
 git checkout main
 git pull origin main
 git checkout -b feature/add-user-profile
+# or for bugfix
+git checkout -b fix/login-validation
 
 # Make your changes
 echo "User profile feature" > user-profile.js
