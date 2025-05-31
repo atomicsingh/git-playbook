@@ -346,9 +346,9 @@ git mergetool
 
 ## 🏗️ Branching Strategies
 
-### 1. Feature/Hotfix → Dev → Main (Recommended for Your Organization)
+### 1. Feature/Fix/Hotfix → Dev → Main (Recommended for Your Organization)
 
-**Best for**: Teams that want to stabilize features before production
+**Best for**: Teams that want to stabilize features and fixes before production
 
 ```
 main:      [A] ── [B] ── [C] ── [D] (production)
@@ -356,51 +356,70 @@ main:      [A] ── [B] ── [C] ── [D] (production)
             [merge]
              ↑
 dev:       [E] ── [F] ── [G] ── [H] (integration)
-             ↑             ↑
-feature:   [I] ── [J]    [K] ── [L]
-fix:       [M] ── [N]
+             ↑      ↑      ↑
+feature:   [I]     [J]
+fix:       [K]     [L]
+hotfix:    [M]     [N]
 ```
 
 **Branches:**
 - **main**: Production-ready code
-- **dev**: Integration branch for all features/fixes
+- **dev**: Integration branch for all features, fixes, and hotfixes
 - **feature/***: Individual features (from dev)
 - **fix/***: Bug fixes (from dev)
-- **release/***: Release preparation (optional)
-- **hotfix/***: Emergency fixes (from dev, merged to dev)
+- **hotfix/***: Urgent fixes (from dev or main, see below)
 
 **Workflow:**
-1. Create feature/fix branch from `dev`
+1. Create feature, fix, or hotfix branch from `dev`
 2. Work, commit, and push to remote
-3. Merge feature/fix branch into `dev` via PR
+3. Merge feature/fix/hotfix branch into `dev` via PR
 4. Test and stabilize in `dev`
 5. **Merge `dev` into `main` via PR for production release**
-6. Delete feature/fix branch after merge
+6. Delete feature/fix/hotfix branch after merge
+
+**Hotfixes:**
+- If an urgent hotfix is needed in production, create the hotfix branch from `main`, merge it into both `main` and `dev` to keep them in sync.
 
 **Commands:**
 ```bash
-# Start new feature
+# Start new feature/fix/hotfix
 git checkout dev
 git pull origin dev
-git checkout -b feature/new-login
+git checkout -b feature/new-feature
+# or
+git checkout -b fix/bug-description dev
+# or
+git checkout -b hotfix/urgent-fix dev
 
-# Finish feature
+# Finish feature/fix/hotfix
 # (after PR review/approval)
 git checkout dev
 git pull origin dev
-git merge --no-ff feature/new-login
-git branch -d feature/new-login
+git merge --no-ff feature/new-feature
+git branch -d feature/new-feature
 git push origin dev
 
-# Release to production
-# (merge dev into main)
+# Release to production (merge dev into main)
 git checkout main
 git pull origin main
 git merge --no-ff dev
 git push origin main
+
+# Urgent hotfix (if needed)
+git checkout main
+git pull origin main
+git checkout -b hotfix/urgent-fix main
+# ... make and commit changes ...
+git merge --no-ff hotfix/urgent-fix
+git push origin main
+git checkout dev
+git pull origin dev
+git merge --no-ff hotfix/urgent-fix
+git push origin dev
+git branch -d hotfix/urgent-fix
 ```
 
-> **Note:** Hotfixes from `dev` should also be merged back into `dev` to keep branches in sync.
+> **Note:** All regular development (features, fixes, hotfixes) should go through `dev`. Only urgent hotfixes may be created from `main` and must be merged back into `dev` after release.
 
 ### 2. GitHub Flow
 
