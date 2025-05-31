@@ -208,19 +208,6 @@ size/XL  - Extra large (1+ weeks)
 
 ### Label Management
 
-```bash
-# Using GitHub CLI to manage labels
-gh label create "bug" --color "d73a4a" --description "Something isn't working"
-gh label create "enhancement" --color "a2eeef" --description "New feature or request"
-gh label create "documentation" --color "0075ca" --description "Improvements to docs"
-
-# List all labels
-gh label list
-
-# Delete label
-gh label delete "wontfix"
-```
-
 ## 📋 GitHub Projects and Boards
 
 ### GitHub Projects (Classic)
@@ -256,10 +243,6 @@ Testing → Done: When PR is merged
 The new GitHub Projects offers more powerful features:
 
 #### Creating a Project
-```bash
-# Using GitHub CLI
-gh project create --title "Product Roadmap" --body "Our product development roadmap"
-```
 
 #### Custom Fields
 - **Status**: Todo, In Progress, Done
@@ -304,17 +287,6 @@ First major release including core features:
 ```
 
 ### Managing Milestones
-
-```bash
-# Using GitHub CLI
-gh milestone create "v1.0 Release" --due-date "2024-03-15" --description "First major release"
-
-# List milestones
-gh milestone list
-
-# Close milestone
-gh milestone close "v1.0 Release"
-```
 
 ## 🏷️ Tags and Releases
 

@@ -81,12 +81,6 @@ git push -u origin feature/add-user-profile
 3. Or: Go to "Pull requests" → "New pull request"
 4. Select branches: `base: main` ← `compare: feature/add-user-profile`
 
-**Via GitHub CLI:**
-```bash
-# Install GitHub CLI first: https://cli.github.com/
-gh pr create --title "Add user profile functionality" --body "This PR adds..."
-```
-
 ### Writing Great PR Descriptions
 
 #### PR Title Best Practices
@@ -302,14 +296,6 @@ XL (extra-large)
 
 **Assignees**: Who is responsible for the PR
 **Reviewers**: Who should review the code
-
-```bash
-# Setting reviewers via GitHub CLI
-gh pr create --reviewer @username1,@username2 --title "Add feature"
-
-# Requesting review from teams
-gh pr create --reviewer @org/team-name --title "Add feature"
-```
 
 ### Review Requirements
 

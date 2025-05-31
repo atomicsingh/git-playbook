@@ -258,15 +258,7 @@ ssh -T git@github.com
    - **License**: Choose if open source
 
 #### Method 2: GitHub CLI
-```bash
-# Install GitHub CLI first: https://cli.github.com/
-
-# Create repository
-gh repo create my-awesome-project --public --description "My awesome project"
-
-# Create and clone in one step
-gh repo create my-awesome-project --public --clone
-```
+# Remove this section entirely, including any code blocks and instructions about 'gh repo create'.
 
 ### Connecting Local Repository to GitHub
 
