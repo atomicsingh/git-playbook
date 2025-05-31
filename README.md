@@ -17,64 +17,64 @@ By the end of this playbook, you will:
 
 ## 📖 Modules
 
-### [Module 1: Introduction to Git & GitHub](./modules/01-introduction/README.md)
+### [Module 1: Introduction to Git & GitHub](./01-introduction/README.md)
 - What is Git and version control?
 - Understanding GitHub's role in the ecosystem
 - Centralized vs distributed version control systems
 
-### [Module 2: Setting Up Git](./modules/02-setup/README.md)
+### [Module 2: Setting Up Git](./02-setup/README.md)
 - Installation and configuration
 - SSH keys and authentication
 - Repository creation and connection
 
-### [Module 3: Git Essentials](./modules/03-essentials/README.md)
+### [Module 3: Git Essentials](./03-essentials/README.md)
 - Core Git workflow
 - Basic commands and operations
 - Understanding repository states
 
-### [Module 4: Branching & Merging](./modules/04-branching/README.md)
+### [Module 4: Branching & Merging](./04-branching/README.md)
 - Branch strategies and workflows
 - Merging vs rebasing
 - Conflict resolution
 
-### [Module 5: Pull Requests & Code Review](./modules/05-pull-requests/README.md)
+### [Module 5: Pull Requests & Code Review](./05-pull-requests/README.md)
 - Creating effective pull requests
 - Code review best practices
 - GitHub collaboration features
 
-### [Module 6: GitHub Features](./modules/06-github-features/README.md)
+### [Module 6: GitHub Features](./06-github-features/README.md)
 - Issues, projects, and project management
 - Labels, milestones, and automation
 - GitHub Actions introduction
 
-### [Module 7: Advanced Git Commands](./modules/07-advanced-commands/README.md)
+### [Module 7: Advanced Git Commands](./07-advanced-commands/README.md)
 - Power user commands and techniques
 - Interactive rebasing and history management
 - Git hooks and automation
 
-### [Module 8: Semantic Versioning & Releases](./modules/08-versioning/README.md)
+### [Module 8: Semantic Versioning & Releases](./08-versioning/README.md)
 - Semantic versioning principles
 - Release management strategies
 - Changelog generation and automation
 
-### [Module 9: Team Best Practices](./modules/09-best-practices/README.md)
+### [Module 9: Team Best Practices](./09-best-practices/README.md)
 - Commit conventions and standards
 - Branch naming and workflow patterns
 - Code quality and collaboration guidelines
 
-### [Module 10: Common Pitfalls & Solutions](./modules/10-pitfalls/README.md)
+### [Module 10: Common Pitfalls & Solutions](./10-pitfalls/README.md)
 - Avoiding common mistakes
 - Troubleshooting and recovery
 - Performance optimization
 
-### [Module 11: Onboarding & Documentation](./modules/11-onboarding/README.md)
+### [Module 11: Onboarding & Documentation](./11-onboarding/README.md)
 - New developer setup
 - Contributor guidelines
 - Documentation best practices
 
 ## 🚀 Getting Started
 
-1. Start with [Module 1](./modules/01-introduction/README.md) if you're new to Git
+1. Start with [Module 1](./01-introduction/README.md) if you're new to Git
 2. Jump to specific modules based on your current knowledge level
 3. Follow the practical exercises in each module
 4. Use the [Quick Reference](./reference/README.md) for command lookups
@@ -104,4 +104,4 @@ This playbook is open source and available under the [MIT License](./LICENSE).
 
 ---
 
-**Next Steps**: Start with [Module 1: Introduction to Git & GitHub](./modules/01-introduction/README.md)
+**Next Steps**: Start with [Module 1: Introduction to Git & GitHub](./01-introduction/README.md)
