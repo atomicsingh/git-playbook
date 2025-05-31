@@ -58,8 +58,8 @@ A **Pull Request (PR)** is a way to propose changes to a repository. It's called
 #### 1. Create and Work on Feature Branch
 ```bash
 # Create feature branch
-git checkout main
-git pull origin main
+git checkout dev
+git pull origin dev
 git checkout -b feature/add-user-profile
 # or for bugfix
 git checkout -b fix/login-validation
@@ -79,7 +79,7 @@ git push -u origin feature/add-user-profile
 1. Go to your repository on GitHub
 2. Click "Compare & pull request" (appears after pushing)
 3. Or: Go to "Pull requests" → "New pull request"
-4. Select branches: `base: main` ← `compare: feature/add-user-profile`
+4. Select branches: `base: dev` ← `compare: feature/add-user-profile`
 
 ### Writing Great PR Descriptions
 
@@ -143,12 +143,13 @@ Related to #456
 **Tips for Right-Sized PRs:**
 ```bash
 # Check your PR size before opening
-git diff --stat main...feature-branch
+git diff --stat dev...feature-branch
 
 # Break large changes into smaller PRs
+git checkout dev
 git checkout -b feature/part-1
 # Implement part 1
-git checkout main
+git checkout dev
 git checkout -b feature/part-2
 # Implement part 2 (depends on part 1)
 ```
@@ -523,13 +524,13 @@ Brief description of changes
 ### PR Shows Unexpected Changes
 ```bash
 # Check what's being compared
-git log --oneline main..feature-branch
+git log --oneline dev..feature-branch
 
 # Make sure you're branching from the right place
-git merge-base main feature-branch
+git merge-base dev feature-branch
 
 # Rebase if needed to clean up
-git rebase main
+git rebase dev
 ```
 
 ### Can't Merge PR
@@ -538,7 +539,7 @@ git rebase main
 
 # 1. Merge conflicts
 git checkout feature-branch
-git pull origin main
+git pull origin dev
 # Resolve conflicts, then
 git add .
 git commit -m "Resolve merge conflicts"
@@ -550,7 +551,7 @@ git push
 
 # 3. Outdated branch
 git checkout feature-branch
-git pull origin main
+git pull origin dev
 git push
 ```
 
@@ -564,7 +565,7 @@ git push
 ```bash
 # If you have admin access, you can revert
 git revert -m 1 <merge-commit-hash>
-git push origin main
+git push origin dev
 
 # Or contact repository admin
 ```
@@ -572,13 +573,18 @@ git push origin main
 ## 💡 Advanced PR Techniques
 
 ### Draft Pull Requests
-```bash
-# Create draft PR via CLI
-gh pr create --draft --title "WIP: New feature"
 
-# Mark PR as ready for review
-gh pr ready
-```
+**How to create a Draft PR using GitHub UI:**
+1. Push your feature branch to GitHub.
+2. Go to your repository on GitHub.
+3. Click "Pull requests" → "New pull request".
+4. Select your base and compare branches.
+5. Click the dropdown arrow on the "Create pull request" button and select "Create draft pull request".
+6. Fill in the PR details and submit.
+
+**How to mark a Draft PR as ready for review:**
+1. Open your draft pull request on GitHub.
+2. Click the "Ready for review" button at the top of the PR page.
 
 **Use draft PRs when:**
 - Work is in progress
@@ -610,9 +616,9 @@ git checkout -b feature/awesome-feature
 
 # 5. Keep your fork updated
 git fetch upstream
-git checkout main
-git merge upstream/main
-git push origin main
+git checkout dev
+git merge upstream/dev
+git push origin dev
 ```
 
 ### Using Co-authors
