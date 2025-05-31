@@ -208,54 +208,28 @@ size/XL  - Extra large (1+ weeks)
 
 ### Label Management
 
-## 📋 GitHub Projects and Boards
+## 📋 Project Management with Notion
 
-### GitHub Projects (Classic)
+### Using Notion for Projects, Tasks, and Sprints
 
-#### Setting Up a Project Board
-1. Go to repository → Projects → New Project
-2. Choose template:
-   - **Basic Kanban**: To do, In progress, Done
-   - **Automated Kanban**: Auto-moves cards based on PR status
-   - **Bug Triage**: For managing bug reports
+Your team uses Notion as the primary tool for project tracking and management, instead of GitHub Projects. Notion provides flexible templates and databases for organizing work, including:
 
-#### Kanban Board Columns
-```
-📝 Backlog       - Ideas and future work
-📋 To Do         - Ready to be worked on
-🚧 In Progress   - Currently being worked on
-👀 Review        - Waiting for code review
-🧪 Testing       - Ready for testing
-✅ Done          - Completed work
-```
+- **Projects**: High-level initiatives or deliverables, tracked in a Notion database with custom fields (e.g., status, owner, due date).
+- **Tasks**: Actionable items linked to projects, often managed in a Kanban board or table view. Tasks can be assigned, prioritized, and tracked through various stages (e.g., Backlog, To Do, In Progress, Review, Done).
+- **Sprints**: Time-boxed periods for focused work, managed using a Notion sprint template. Each sprint contains a set of tasks and goals, with start/end dates and retrospective notes.
 
-#### Automation Rules
-```yaml
-# Automatically move cards
-To Do → In Progress: When PR is opened
-In Progress → Review: When PR is ready for review
-Review → Testing: When PR is approved
-Testing → Done: When PR is merged
-```
+#### Example Notion Workflow
+- Create a **Project** in Notion for each major initiative.
+- Break down the project into **Tasks** and assign them to team members.
+- Organize tasks into **Sprints** using the sprint template, moving tasks through Kanban columns as work progresses.
+- Use Notion's database views (Board, Table, Calendar) to visualize work and track progress.
+- Optionally, link GitHub Issues or PRs in Notion tasks for traceability.
 
-### GitHub Projects (Beta/New)
-
-The new GitHub Projects offers more powerful features:
-
-#### Creating a Project
-
-#### Custom Fields
-- **Status**: Todo, In Progress, Done
-- **Priority**: High, Medium, Low
-- **Size**: S, M, L, XL
-- **Sprint**: Sprint 1, Sprint 2, etc.
-- **Assignee**: Team member
-- **Due Date**: Target completion
-
-#### Views
-- **Board View**: Traditional Kanban
-- **Table View**: Spreadsheet-like
-- **Roadmap View**: Timeline visualization
+#### Best Practices
+- Keep project and task descriptions clear and actionable.
+- Regularly review sprint progress and update task statuses.
+- Use Notion comments and mentions for team collaboration.
+- Archive completed sprints and projects for future reference.
 
 ## 🎯 Milestones
 
@@ -708,7 +682,7 @@ jobs:
 
 ### Exercise 1: Set Up Project Management
 1. Create issue templates for your repository
-2. Set up a project board with appropriate columns
+2. Set up a Notion workspace for project tracking using projects, tasks, and sprints templates
 3. Create and organize labels
 4. Add milestones for upcoming releases
 
@@ -769,9 +743,9 @@ jobs:
 - Close issues when work is complete
 
 ### Project Organization
-- Regular board maintenance
-- Clear column definitions
-- Consistent automation rules
+- Regular Notion board maintenance
+- Clear column definitions in Notion (e.g., Backlog, To Do, In Progress, Review, Done)
+- Consistent sprint planning and review in Notion
 - Regular milestone reviews
 
 ### Release Management
@@ -800,6 +774,7 @@ Before moving to Module 7, ensure you can:
 - [ ] Use GitHub's project management features
 - [ ] Understand GitHub's security and automation features
 - [ ] Troubleshoot common GitHub feature issues
+- [ ] Set up and use Notion for project and sprint organization
 
 ---
 
