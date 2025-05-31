@@ -74,6 +74,9 @@ By the end of this playbook, you will:
 
 ## 🚀 Getting Started
 
+> **Workflow Note:**
+> The standard workflow is to create feature and fix branches from the `dev` branch, merge them into `dev` via pull requests, and then merge `dev` into `main` for production releases. This keeps `main` stable and production-ready while allowing collaborative development in `dev`.
+
 1. Start with [Module 1](./01-introduction/README.md) if you're new to Git
 2. Jump to specific modules based on your current knowledge level
 3. Follow the practical exercises in each module

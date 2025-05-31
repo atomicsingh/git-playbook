@@ -147,16 +147,16 @@ Document advanced configuration options.
 
 ### Development Workflow
 
-1. Create a feature branch: `git checkout -b feature/amazing-feature`
+1. Create a feature branch: `git checkout -b feature/amazing-feature dev`
 2. Make your changes
 3. Run tests: `npm test`
 4. Commit your changes: `git commit -m 'feat: add amazing feature'`
 5. Push to the branch: `git push origin feature/amazing-feature`
-6. Open a Pull Request
+6. Open a Pull Request to `dev`
 
 ### Git Workflow
 
-We use [GitHub Flow](link-to-workflow-doc) for our development process.
+We use a workflow where all feature and fix branches are created from `dev`, merged into `dev`, and then `dev` is merged into `main` for production releases.
 
 ## 🤝 Contributing
 
@@ -197,10 +197,13 @@ This project and everyone participating in it is governed by our Code of Conduct
 
 ### Branching Strategy
 
-We use GitHub Flow:
+We use the following workflow:
 
 - `main` branch is always deployable
-- Create feature branches from `main`
+- `dev` branch is for integration and testing
+- Create feature/fix branches from `dev`
+- Merge feature/fix branches into `dev`
+- Merge `dev` into `main` for production
 - Use descriptive branch names: `feature/add-user-auth`, `fix/login-validation`
 
 ### Commit Messages
@@ -296,7 +299,7 @@ Contributors are recognized in our:
 
 ## Overview
 
-Our team uses GitHub Flow with some modifications to support our development process.
+Our team uses a development workflow where all feature and fix branches are merged into the `dev` branch, and then `dev` is merged into `main` for production releases.
 
 ## Branching Strategy
 
@@ -306,11 +309,16 @@ Our team uses GitHub Flow with some modifications to support our development pro
 - Requires PR reviews before merging
 - CI/CD pipeline runs on every push
 
-### Feature Branches
-- Created from latest `main`
+### Dev Branch
+- Integration branch for all features and fixes
+- Regularly updated and tested
+- Merged into `main` for releases
+
+### Feature/Fix Branches
+- Created from latest `dev`
 - Named with prefix: `feature/`, `fix/`, `hotfix/`
 - Short-lived (typically < 1 week)
-- Regularly rebased with `main`
+- Regularly rebased with `dev`
 
 ### Branch Naming Convention
 
@@ -327,9 +335,9 @@ chore/update-dependencies
 ### Starting Work
 
 ```bash
-# 1. Switch to main and pull latest
-git checkout main
-git pull origin main
+# 1. Switch to dev and pull latest
+git checkout dev
+git pull origin dev
 
 # 2. Create feature branch
 git checkout -b feature/123-amazing-feature
@@ -345,9 +353,9 @@ git push -u origin feature/123-amazing-feature
 ### During Development
 
 ```bash
-# Stay up to date with main (daily)
+# Stay up to date with dev (daily)
 git fetch origin
-git rebase origin/main
+git rebase origin/dev
 
 # Push changes
 git push origin feature/123-amazing-feature
@@ -361,23 +369,35 @@ git push --force-with-lease origin feature/123-amazing-feature
 ### Finishing Work
 
 ```bash
-# 1. Final rebase with main
-git checkout main
-git pull origin main
+# 1. Final rebase with dev
+git checkout dev
+git pull origin dev
 git checkout feature/123-amazing-feature
-git rebase main
+git rebase dev
 
 # 2. Push final changes
 git push --force-with-lease origin feature/123-amazing-feature
 
-# 3. Open Pull Request
-gh pr create --title "feat: add amazing feature" --body "Description of changes"
+# 3. Open Pull Request to dev
+# (merge feature/fix branch into dev)
 
 # 4. After merge, clean up
-git checkout main
-git pull origin main
+git checkout dev
+git pull origin dev
 git branch -d feature/123-amazing-feature
 ```
+
+### Releasing to Production
+
+```bash
+# 1. Merge dev into main via PR
+git checkout main
+git pull origin main
+git merge --no-ff dev
+git push origin main
+```
+
+> **Note:** Hotfixes from `main` should also be merged back into `dev` to keep branches in sync.
 ```
 
 ## 🎓 Knowledge Sharing Practices

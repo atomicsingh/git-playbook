@@ -346,49 +346,59 @@ git mergetool
 
 ## 🏗️ Branching Strategies
 
-### 1. Git Flow
+### 1. Feature/Hotfix → Dev → Main (Recommended for Your Organization)
 
-**Best for**: Large projects with scheduled releases
+**Best for**: Teams that want to stabilize features before production
 
 ```
-main:      [A] ── [B] ── [C] ── [D] (production ready)
-            ↑      ↑      ↑      ↑
-develop:   [E] ── [F] ── [G] ── [H] (integration)
-            ↑             ↑
+main:      [A] ── [B] ── [C] ── [D] (production)
+             ↑             ↑
+dev:       [E] ── [F] ── [G] ── [H] (integration)
+             ↑             ↑
 feature:   [I] ── [J]    [K] ── [L]
-            ↑
-hotfix:    [M] ── [N]
+fix:       [M] ── [N]
 ```
 
 **Branches:**
 - **main**: Production-ready code
-- **develop**: Integration branch for features
-- **feature/***: Individual features
-- **release/***: Release preparation
-- **hotfix/***: Emergency fixes
+- **dev**: Integration branch for all features/fixes
+- **feature/***: Individual features (from dev)
+- **fix/***: Bug fixes (from dev)
+- **release/***: Release preparation (optional)
+- **hotfix/***: Emergency fixes (from main, merged to both main and dev)
+
+**Workflow:**
+1. Create feature/fix branch from `dev`
+2. Work, commit, and push to remote
+3. Merge feature/fix branch into `dev` via PR
+4. Test and stabilize in `dev`
+5. Merge `dev` into `main` via PR for release
+6. Delete feature/fix branch after merge
 
 **Commands:**
 ```bash
 # Start new feature
-git checkout develop
+git checkout dev
+git pull origin dev
 git checkout -b feature/new-login
 
 # Finish feature
-git checkout develop
+# (after PR review/approval)
+git checkout dev
+git pull origin dev
 git merge --no-ff feature/new-login
 git branch -d feature/new-login
 
-# Create release
-git checkout develop
-git checkout -b release/v1.2.0
+git push origin dev
 
-# Finish release
+# Release to production
 git checkout main
-git merge --no-ff release/v1.2.0
-git checkout develop
-git merge --no-ff release/v1.2.0
-git tag v1.2.0
+git pull origin main
+git merge --no-ff dev
+git push origin main
 ```
+
+> **Note:** Hotfixes from `main` should also be merged back into `dev` to keep branches in sync.
 
 ### 2. GitHub Flow
 
