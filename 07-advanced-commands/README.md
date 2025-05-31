@@ -1,3 +1,5 @@
+> **Disclaimer:** This module covers advanced Git features. Mastering these commands will significantly improve your Git proficiency, enable you to solve complex problems, and make you a more effective collaborator. If you're comfortable with the basics, learning these advanced tools will take your workflow to the next level.
+
 # Module 7: Advanced Git Commands
 
 ## 🎯 Learning Objectives
