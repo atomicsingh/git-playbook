@@ -1,0 +1,65 @@
+# This is a CODEOWNERS file to define individuals or teams responsible for code in a repository.
+# Each line is a file pattern followed by one or more owners.
+# Learn more: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# These owners will be the default owners for everything in the repo
+# unless a later match takes precedence.
+* @organization/admin-team
+
+# Specific file types 
+*.js @organization/frontend-team
+*.ts @organization/frontend-team
+*.tsx @organization/frontend-team
+*.css @organization/frontend-team
+*.scss @organization/frontend-team
+*.html @organization/frontend-team
+
+*.py @organization/backend-team
+*.go @organization/backend-team
+*.java @organization/backend-team
+*.sql @organization/backend-team
+
+# Docker and deployment files
+Dockerfile @organization/devops-team
+docker-compose.yml @organization/devops-team
+*.yml @organization/devops-team
+*.yaml @organization/devops-team
+
+# Specific directories
+/src/frontend/ @organization/frontend-team
+/src/backend/ @organization/backend-team
+/src/api/ @organization/backend-team
+/src/common/ @organization/admin-team
+/src/utils/ @organization/admin-team
+
+# Documentation
+/docs/ @organization/docs-team
+*.md @organization/docs-team
+LICENSE @organization/admin-team
+
+# Configuration files
+/.github/ @organization/devops-team
+/.circleci/ @organization/devops-team
+/.gitlab/ @organization/devops-team
+package.json @organization/frontend-team
+package-lock.json @organization/frontend-team
+requirements.txt @organization/backend-team
+go.mod @organization/backend-team
+go.sum @organization/backend-team
+
+# Security-sensitive areas
+/security/ @organization/security-team
+/auth/ @organization/security-team
+/src/auth/ @organization/security-team
+/src/security/ @organization/security-team
+
+# Specific files
+/CODEOWNERS @organization/admin-team
+/.env.example @organization/devops-team
+/README.md @organization/docs-team @organization/admin-team
+
+# Special case for legal files
+/legal/ @organization/legal-team @organization/admin-team
+
+# This file itself
+/.github/CODEOWNERS @organization/admin-team
