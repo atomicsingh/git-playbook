@@ -91,7 +91,7 @@ echo "✅ Setup complete!"
 
 ### README.md Template
 
-```markdown
+````markdown
 # Project Name
 
 Brief description of what this project does and why it exists.
@@ -105,7 +105,6 @@ cd project-name
 
 # Install dependencies
 npm install
-
 # Start development server
 npm run dev
 ```
@@ -165,7 +164,7 @@ Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
+````
 
 ### CONTRIBUTING.md Template
 
@@ -192,7 +191,7 @@ This project and everyone participating in it is governed by our Code of Conduct
 2. Clone your fork: `git clone git@github.com:yourusername/project-name.git`
 3. Install dependencies: `npm install`
 4. Create a branch: `git checkout -b feature/your-feature-name`
-
+```
 ## 🔄 Development Process
 
 ### Branching Strategy
@@ -288,13 +287,12 @@ Contributors are recognized in our:
 - README contributors section
 - Release notes
 - Annual contributor highlight
-```
 
 ## 📖 Git Workflow Documentation
 
 ### Team Workflow Guide
 
-```markdown
+````markdown
 # Git Workflow Guide
 
 ## Overview
@@ -322,13 +320,14 @@ Our team uses a development workflow where all feature and fix branches are merg
 
 ### Branch Naming Convention
 
-```
+```bash
 feature/123-user-authentication
 fix/456-login-validation
 hotfix/789-security-patch
 docs/update-readme
 chore/update-dependencies
 ```
+````
 
 ## Daily Workflow
 
