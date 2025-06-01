@@ -179,13 +179,8 @@ Version control is a system that:
 ### Historical Context
 
 <p align="center">
-<img src="../resources/module_1_git_timeline.png" alt="Why Git Became the Standard (Timeline)">
+<img src="../resources/module_1_git_timeline.png" alt="Git Timeline">
 </p>
-
-**2005**: Linus Torvalds creates Git for Linux kernel development
-**2008**: GitHub launches, making Git accessible to everyone
-**2010s**: Git adoption explodes across the industry
-**Today**: Git is the de facto standard for version control
 
 ### Key Advantages
 
