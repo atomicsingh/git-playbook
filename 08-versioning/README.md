@@ -15,14 +15,29 @@ By the end of this module, you will be able to:
 
 Semantic Versioning (SemVer) is a versioning scheme that uses a three-part number: **MAJOR.MINOR.PATCH**
 
+```mermaid
+flowchart TD
+    Version[v2.1.3] --> Major[2 - MAJOR]
+    Version --> Minor[1 - MINOR] 
+    Version --> Patch[3 - PATCH]
+    
+    Major --> MajorDesc[🚨 Breaking Changes<br/>Not backward compatible<br/>Example: v1.0.0 → v2.0.0]
+    Minor --> MinorDesc[✨ New Features<br/>Backward compatible<br/>Example: v2.0.0 → v2.1.0]
+    Patch --> PatchDesc[🐛 Bug Fixes<br/>Backward compatible<br/>Example: v2.1.0 → v2.1.1]
+    
+    %% Styling
+    classDef versionNode fill:#e1f5fe,stroke:#01579b,stroke-width:3px
+    classDef majorNode fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef minorNode fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef patchNode fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    classDef exampleNode fill:#f3e5f5,stroke:#7b1fa2,stroke-width:1px
+    
+    class Version versionNode
+    class Major,MajorDesc majorNode
+    class Minor,MinorDesc minorNode
+    class Patch,PatchDesc patchNode
+    class E1,E2,E3,E4,E5 exampleNode
 ```
-v2.1.3
-│ │ │
-│ │ └── PATCH: Bug fixes (backward compatible)
-│ └──── MINOR: New features (backward compatible) 
-└────── MAJOR: Breaking changes (not backward compatible)
-```
-
 ### SemVer Rules
 
 1. **MAJOR**: Increment when you make incompatible API changes
@@ -45,6 +60,26 @@ v1.2.4 → v1.3.0
 # Breaking change (major)
 v1.3.0 → v2.0.0
 # Examples: Remove deprecated API, change function signatures
+```
+
+```mermaid
+flowchart TD
+ 
+    %% Examples
+    subgraph Examples["Version Progression Examples"]
+        E1[v1.0.0 - Initial Release]
+        E2[v1.0.1 - Bug Fix]
+        E3[v1.1.0 - New Feature]
+        E4[v1.1.1 - Another Bug Fix]
+        E5[v2.0.0 - Breaking Change]
+        
+        E1 --> E2
+        E2 --> E3
+        E3 --> E4
+        E4 --> E5
+    end
+    
+
 ```
 
 ### Pre-release Versions
