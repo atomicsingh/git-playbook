@@ -35,22 +35,28 @@ A **Pull Request (PR)** is a way to propose changes to a repository. It's called
 
 ### The PR Lifecycle
 
-```
-1. Create Feature Branch
-        ↓
-2. Make Changes & Commit
-        ↓
-3. Push Branch to Remote
-        ↓
-4. Open Pull Request
-        ↓
-5. Code Review & Discussion
-        ↓
-6. Address Feedback
-        ↓
-7. Approval & Merge
-        ↓
-8. Delete Branch & Close PR
+```mermaid
+flowchart TD
+    A[Step 1:<br>Create Feature Branch] --> B[2.<br>Make Changes & Commit]
+    B --> C[3.<br>Push Branch to Remote]
+    C --> D[4.<br>Open Pull Request]
+    D --> E[5.<br>Code Review & Discussion]
+    E --> F{Feedback?}
+    F -->|Yes| G[6.<br>Address Feedback]
+    G --> E
+    F -->|No| H[7.<br>Approval & Merge]
+    H --> I[8.<br>Delete Branch & Close PR]
+    
+    %% Styling
+    classDef startEnd fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    classDef process fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef decision fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef feedback fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    
+    class A,I startEnd
+    class B,C,D,E,H process
+    class F decision
+    class G feedback
 ```
 
 ### Step-by-Step: Creating Your First PR
@@ -269,27 +275,27 @@ Nit: Consider using camelCase for consistency with the rest of the codebase
 
 **Common Label Categories:**
 ```
-Status:
-🟢 ready-for-review
-🟡 work-in-progress
-🔴 blocked
+### Status:<br>
+🟢 ready-for-review<br>
+🟡 work-in-progress<br>
+🔴 blocked<br>
 ⚪ draft
 
-Type:
-🐛 bug
-✨ feature
-📝 documentation
+### Type:<br>
+🐛 bug<br>
+✨ feature<br>
+📝 documentation<br>
 🔧 maintenance
 
-Priority:
-🔴 high-priority
-🟡 medium-priority
+### Priority:<br>
+🔴 high-priority<br>
+🟡 medium-priority<br>
 🟢 low-priority
 
-Size:
-S (small)
-M (medium)
-L (large)
+### Size:<br>
+S (small)<br>
+M (medium)<br>
+L (large)<br>
 XL (extra-large)
 ```
 
@@ -388,11 +394,19 @@ If applicable, add screenshots to help explain your problem.
 GitHub provides three merge strategies:
 
 #### 1. Merge Commit (Default)
-```bash
-# Creates a merge commit
-main: [A] ── [B] ── [C] ── [M]
-               ↗            ↗
-feature:      [D] ── [E] ──↗
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    
+    branch feature
+    checkout feature
+    commit id: "D"
+    commit id: "E"
+    
+    checkout main
+    merge feature id: "M - Merge Commit"
 ```
 
 **When to use:**
@@ -401,11 +415,23 @@ feature:      [D] ── [E] ──↗
 - Need to see when features were integrated
 
 #### 2. Squash and Merge
-```bash
-# Combines all commits into one
-main: [A] ── [B] ── [C] ── [S]
-               ↗            ↗
-feature:      [D] ── [E] ──↗ (squashed into S)
+```mermaid
+flowchart LR
+    subgraph BEFORE["Before Squash & Merge"]
+        direction TB
+        A1[A] --> B1[B] --> C1[C]
+        B1 --> D1[D] --> E1[E]
+        style D1 fill:#e3f2fd
+        style E1 fill:#e3f2fd
+    end
+    
+    subgraph AFTER["After Squash & Merge"]
+        direction LR
+        A2[A] --> B2[B] --> C2[C] --> S2[S - All D+E changes]
+        style S2 fill:#c8e6c9
+    end
+    
+    BEFORE --> AFTER
 ```
 
 **When to use:**
@@ -414,9 +440,24 @@ feature:      [D] ── [E] ──↗ (squashed into S)
 - Individual commits aren't meaningful
 
 #### 3. Rebase and Merge
-```bash
-# Replays commits without merge commit
-main: [A] ── [B] ── [C] ── [D'] ── [E']
+```mermaid
+flowchart LR
+    subgraph BEFORE["Before Rebase & Merge"]
+        direction TB
+        A1[A] --> B1[B] --> C1[C]
+        B1 --> D1[D] --> E1[E]
+        style D1 fill:#e3f2fd
+        style E1 fill:#e3f2fd
+    end
+    
+    subgraph AFTER["After Rebase & Merge"]
+        direction LR
+        A2[A] --> B2[B] --> C2[C] --> D2[D'] --> E2[E']
+        style D2 fill:#c8e6c9
+        style E2 fill:#c8e6c9
+    end
+    
+    BEFORE --> AFTER
 ```
 
 **When to use:**
