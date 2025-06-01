@@ -15,11 +15,22 @@ By the end of this module, you will be able to:
 
 Imagine a team working on the same codebase without branches:
 
-```
-😰 Without Branches:
-main: [A] ── [B] ── [💥 Broken] ── [C] ── [💥 More Broken] ── [D]
-             ↑         ↑              ↑         ↑
-          Dev 1     Dev 2          Dev 1     Dev 3
+```mermaid
+
+timeline
+    title Working Without Branches = Chaos
+
+    section Good Times
+        A : Initial code ✅
+        B : Still working ✅
+
+    section Problems Start
+        💥 : Dev 1 breaks main ❌
+        C : Dev 2 builds on broken code ❌
+
+    section Complete Mess
+        💥💥 : Dev 1 + Dev 3 clash ❌
+        D : Everyone's work broken ❌
 ```
 
 **Problems:**
@@ -30,13 +41,31 @@ main: [A] ── [B] ── [💥 Broken] ── [C] ── [💥 More Broken] �
 
 ### The Solution: Branching
 
-```
-😌 With Branches:
-main:        [A] ── [B] ── [F] ── [G] ── [H]
-                     ↑      ↑      ↑
-feature-1:          [C] ── [D] ── [E]
-                              ↘    ↙
-feature-2:                     [merge]
+```mermaid
+gitGraph
+    commit id: "A - Initial"
+    commit id: "B - Stable base"
+    
+    branch feature-1
+    checkout feature-1
+    commit id: "C - Dev 1 work"
+    commit id: "D - More features"
+    commit id: "E - Ready to merge"
+    
+    checkout main
+    merge feature-1
+    commit id: "F - Merged feature-1 ✅"
+    
+    branch feature-2
+    checkout feature-2
+    commit id: "Dev 2 work"
+    commit id: "Another feature"
+    
+    checkout main
+    commit id: "G - Other updates"
+    merge feature-2
+    commit id: "H - All features merged ✅"
+
 ```
 
 **Benefits:**
@@ -140,14 +169,26 @@ Both merging and rebasing integrate changes from one branch into another, but th
 ### Merge Strategies
 
 #### 1. Fast-Forward Merge
-```bash
-# When target branch hasn't diverged
-main:    [A] ── [B]
-                 ↑
-feature:        [C] ── [D]
-
-# After merge:
-main:    [A] ── [B] ── [C] ── [D]
+```mermaid
+flowchart LR
+    subgraph BEFORE["Before Fast-Forward"]
+        A1[A] --> B1[B]
+        B1 --> C1[C] --> D1[D]
+        B1 -.->|main stops here| B1X[ ]
+        style B1X fill:transparent,stroke:transparent
+        style C1 fill:#e3f2fd
+        style D1 fill:#e3f2fd
+    end
+    
+    subgraph AFTER["After Fast-Forward"]
+        A2[A] --> B2[B] --> C2[C] --> D2[D]
+        D2 -.->|main now here| D2X[ ]
+        style D2X fill:transparent,stroke:transparent
+        style C2 fill:#c8e6c9
+        style D2 fill:#c8e6c9
+    end
+    
+    BEFORE --> AFTER
 ```
 
 ```bash
@@ -156,16 +197,32 @@ git merge feature-branch    # Fast-forward automatically
 ```
 
 #### 2. Three-Way Merge (Merge Commit)
-```bash
-# When both branches have new commits
-main:    [A] ── [B] ── [E]
-              ↙        ↘
-feature:     [C] ── [D]
-
-# After merge:
-main:    [A] ── [B] ── [E] ── [M]
-              ↙               ↗
-feature:     [C] ── [D] ─────↗
+```mermaid
+flowchart LR
+    subgraph BEFORE["Before Three-Way Merge"]
+        direction TB
+        A1[A] --> B1[B]
+        B1 --> E1[E]
+        B1 --> C1[C] --> D1[D]
+        style E1 fill:#ffecb3
+        style C1 fill:#e3f2fd
+        style D1 fill:#e3f2fd
+    end
+    
+    subgraph AFTER["After Three-Way Merge"]
+        direction TB
+        A2[A] --> B2[B]
+        B2 --> E2[E]
+        B2 --> C2[C] --> D2[D]
+        E2 --> M2[M - Merge Commit]
+        D2 --> M2
+        style E2 fill:#ffecb3
+        style C2 fill:#e3f2fd
+        style D2 fill:#e3f2fd
+        style M2 fill:#c8e6c9
+    end
+    
+    BEFORE --> AFTER
 ```
 
 ```bash
@@ -175,11 +232,26 @@ git merge --no-ff feature-branch  # Force merge commit
 ```
 
 #### 3. Squash Merge
-```bash
-# Combines all feature commits into single commit
-main:    [A] ── [B] ── [E] ── [F]
-              ↙               ↗
-feature:     [C] ── [D] ─────↗ (squashed into F)
+```mermaid
+flowchart LR
+    subgraph BEFORE["Before Squash Merge"]
+        direction TB
+        A1[A] --> B1[B]
+        B1 --> E1[E]
+        B1 --> C1[C] --> D1[D]
+        style E1 fill:#ffecb3
+        style C1 fill:#e3f2fd
+        style D1 fill:#e3f2fd
+    end
+    
+    subgraph AFTER["After Squash Merge"]
+        direction LR
+        A2[A] --> B2[B] --> E2[E] --> F2[F - All C+D changes]
+        style E2 fill:#ffecb3
+        style F2 fill:#c8e6c9
+    end
+    
+    BEFORE --> AFTER
 ```
 
 ```bash
@@ -191,16 +263,27 @@ git commit -m "Add complete login feature"
 ### Rebasing
 
 #### Basic Rebase
-```bash
-# Before rebase:
-main:    [A] ── [B] ── [E]
-              ↙
-feature:     [C] ── [D]
-
-# After rebase:
-main:    [A] ── [B] ── [E]
-                      ↘
-feature:               [C'] ── [D']
+```mermaid
+flowchart LR
+    subgraph BEFORE["Before Rebase"]
+        direction TB
+        A1[A] --> B1[B]
+        B1 --> E1[E]
+        B1 --> C1[C] --> D1[D]
+        style E1 fill:#ffecb3
+        style C1 fill:#e3f2fd
+        style D1 fill:#e3f2fd
+    end
+    
+    subgraph AFTER["After Rebase"]
+        direction LR
+        A2[A] --> B2[B] --> E2[E] --> C2[C'] --> D2[D']
+        style E2 fill:#ffecb3
+        style C2 fill:#e3f2fd
+        style D2 fill:#e3f2fd
+    end
+    
+    BEFORE --> AFTER
 ```
 
 ```bash
@@ -350,14 +433,36 @@ git mergetool
 
 **Best for**: Large projects with scheduled releases
 
-```
-main:      [A] ── [B] ── [C] ── [D] (production ready)
-            ↑      ↑      ↑      ↑
-develop:   [E] ── [F] ── [G] ── [H] (integration)
-            ↑             ↑
-feature:   [I] ── [J]    [K] ── [L]
-            ↑
-hotfix:    [M] ── [N]
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    branch develop
+    checkout develop
+    commit id: "E"
+    commit id: "F"
+    branch feature-1
+    checkout feature-1
+    commit id: "I"
+    commit id: "J"
+    checkout develop
+    merge feature-1 id: "G" type: HIGHLIGHT
+    branch feature-2
+    checkout feature-2
+    commit id: "K"
+    commit id: "L"
+    checkout develop
+    merge feature-2 id: "H" type: HIGHLIGHT
+    checkout main
+    merge develop id: "C - Release" type: HIGHLIGHT
+    branch hotfix
+    checkout hotfix
+    commit id: "M"
+    commit id: "N"
+    checkout main
+    merge hotfix id: "D - Hotfix" type: HIGHLIGHT
+    checkout develop
+    merge hotfix
 ```
 
 **Branches:**
@@ -394,10 +499,25 @@ git tag v1.2.0
 
 **Best for**: Continuous deployment, smaller teams
 
-```
-main:    [A] ── [B] ── [D] ── [F] (always deployable)
-           ↑      ↑      ↑      ↑
-feature:  [C] ────┘     [E] ────┘
+```mermaid
+gitGraph
+    commit id: "A"
+    
+    branch feature-1
+    checkout feature-1
+    commit id: "C"
+    
+    checkout main
+    merge feature-1 id: "B"
+    
+    branch feature-2
+    checkout feature-2
+    commit id: "E"
+    
+    checkout main
+    merge feature-2 id: "D"
+    
+    commit id: "F - Always deployable"
 ```
 
 **Process:**
@@ -429,12 +549,27 @@ git branch -d feature/new-feature
 
 **Best for**: Teams needing environment-specific branches
 
-```
-main:        [A] ── [B] ── [C] ── [D]
-              ↑      ↑      ↑      ↑
-pre-prod:    [E] ── [F] ── [G] ── [H]
-              ↑             ↑
-production:  [I] ─────────── [J]
+```mermaid
+gitGraph
+    commit id: "A"
+    commit id: "B"
+    commit id: "C"
+    commit id: "D"
+    
+    branch pre-prod
+    checkout pre-prod
+    commit id: "E"
+    commit id: "F"
+    commit id: "G"
+    commit id: "H"
+    
+    branch production
+    checkout production
+    commit id: "I"
+    
+    checkout pre-prod
+    merge production
+    commit id: "J - Production Release"
 ```
 
 ### 4. Simple Feature Branch Workflow
