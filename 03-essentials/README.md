@@ -16,14 +16,14 @@ By the end of this module, you will be able to:
 Every file in your Git repository can be in one of these states:
 
 <p align="center">
-<img src="../resources/module_2_basic_git_workflow.png" alt="Git Workflow" height="600">
+<img src="../resources/module_3_basic_git_workflow.png" alt="Git Workflow" height="600">
 </p>
 
 <details>
   <summary>Click to toggle detailed chart</summary>
   
    <p align="center">
-   <img src="../resources/module_2_detailed_git_workflow.png" alt="Git Workflow" height="820">
+   <img src="../resources/module_3_detailed_git_workflow.png" alt="Git Workflow" height="820">
    </p>
 </details>
 
@@ -300,7 +300,7 @@ git push --force-with-lease origin feature-branch
 ### Undoing Changes - Decision Tree
 
 <p align="center">
-<img src="../resources/module_2_undo_commit.png" alt="Git Undo" width="90%">
+<img src="../resources/module_3_undo_commit.png" alt="Git Undo" width="90%">
 </p>
 
 ### Specific Undo Scenarios
