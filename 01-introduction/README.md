@@ -22,6 +22,10 @@ By the end of this module, you will understand:
 
 Imagine you're writing a book with several co-authors:
 
+<p align="center">
+<img src="../resources/module_1_git.png" alt="Without Git vs With Git (Book Writing Analogy" height="360">
+</p>
+
 - **Without Git**: You email the document back and forth, manually tracking changes, and inevitably someone overwrites someone else's work
 - **With Git**: Everyone has their own copy, can work independently, and changes are automatically tracked and merged
 
@@ -99,12 +103,9 @@ Version control is a system that:
 
 ### Centralized Version Control (Old School)
 
-```
-       📊 Central Server
-           /    |    \
-          /     |     \
-    👤 Dev A  👤 Dev B  👤 Dev C
-```
+<p align="center">
+<img src="../resources/module_1_CVCS.png" alt="Centralized Version Control System (CVCS)" height="300">
+</p>
 
 **Examples**: Subversion (SVN), Perforce, CVS
 
@@ -123,17 +124,9 @@ Version control is a system that:
 
 ### Distributed Version Control (Modern Approach)
 
-```
-👤 Dev A     👤 Dev B     👤 Dev C
-   📊           📊           📊
-    \           |           /
-     \          |          /
-      \    📊 Central     /
-       \   Repository    /
-        \      |        /
-         \     |       /
-          📊 Backup  📊
-```
+<p align="center">
+<img src="../resources/module_1_DVCS.png" alt="Distributed Version Control System (DVCS)" height="300">
+</p>
 
 **Examples**: Git, Mercurial, Bazaar
 
@@ -184,6 +177,10 @@ Version control is a system that:
 ## 🚀 Why Git Became the Standard
 
 ### Historical Context
+
+<p align="center">
+<img src="../resources/module_1_git_timeline.png" alt="Why Git Became the Standard (Timeline)">
+</p>
 
 **2005**: Linus Torvalds creates Git for Linux kernel development
 **2008**: GitHub launches, making Git accessible to everyone
